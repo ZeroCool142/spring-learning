@@ -10,8 +10,9 @@ public class CircularB {
 
     private CircularA circularA;
 
-    public CircularB() {
+    public CircularB(CircularA circularA) {
         System.out.println("In constructor CircularB dependency = " + circularA);
+        this.circularA = circularA;
     }
 
     @PostConstruct
@@ -19,11 +20,6 @@ public class CircularB {
         System.out.println("In init CircularB dependency = " + circularA);
     }
 
-    @Autowired
-    public void setCircularA(CircularA circularA) {
-        System.out.println("Injecting CircularA");
-        this.circularA = circularA;
-    }
 
     public CircularA getCircularA() {
         return circularA;

@@ -1,5 +1,5 @@
 package ru.iteco.springl;
 
 public enum ShapeType {
-    CIRCLE, SQUARE, TRIANGLE, POLYGON, SPLINE;
+    CIRCLE, SQUARE, TRIANGLE, POLYGON, SPLINE, BASE;
 }

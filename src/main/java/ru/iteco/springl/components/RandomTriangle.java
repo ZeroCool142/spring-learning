@@ -13,6 +13,7 @@ import java.util.Objects;
 @Scope("prototype")
 @ShapeQualifier(ShapeType.TRIANGLE)
 @Profile("circle")
+@PropQualifier("test")
 public class RandomTriangle implements Shape {
 
     private BigDecimal r;
