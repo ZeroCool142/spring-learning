@@ -7,8 +7,10 @@ import java.util.ArrayList;
 @Component
 public class NoThreadSafeMethodImpl implements NoThreadSafeService {
 
-    private Object l1 = new Object();
-    private Object l2 = new Object();
+    private final Object l1 = new Object();
+    private final Object l2 = new Object();
+
+    private int i = 0;
 
     private ArrayList<Object> objects = new ArrayList<>();
 
@@ -36,5 +38,15 @@ public class NoThreadSafeMethodImpl implements NoThreadSafeService {
             }
         }
         return "method2";
+    }
+
+    @Override
+    public int increment() {
+        return i = i + 1;
+    }
+
+    @Override
+    public int getIncrement() {
+        return i;
     }
 }

@@ -2,6 +2,7 @@ package ru.iteco.springl.repository;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +21,9 @@ public class EmployeeRepository {
 
 
     @Transactional
+    @Cacheable("queries")
     public Employee findByName(String name) {
-//        slowQuery(5000L);
+        slowQuery(5000L);
         TypedQuery<Employee> query = entityManager.unwrap(Session.class)
                 .createQuery(QUERY, Employee.class)
 //                .setCacheable(true)

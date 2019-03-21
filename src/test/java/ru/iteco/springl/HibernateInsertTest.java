@@ -13,9 +13,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jmx.export.MBeanExporter;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -35,7 +33,7 @@ import java.util.concurrent.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @ActiveProfiles("circle")
 public class HibernateInsertTest {
 
@@ -374,14 +372,11 @@ public class HibernateInsertTest {
         Cache test = cacheManager.getCache("queries");
         Assert.assertEquals(0, test.getKeys().size());
 
-
         Employee employee = employeeRepository.findByName(savedEmployee.getName());
 
-        Map<String, Region> regions = getRegions(entityManagerFactory.unwrap(SessionFactory.class).getCache());
-
-//        Assert.assertEquals(1, test.getKeys().size());
-//        Assert.assertEquals(test.get(savedEmployee.getName()).getObjectValue(), employee);
-//        Assert.assertEquals(1, LoadListener.getCounter());
+        Assert.assertEquals(1, test.getKeys().size());
+        Assert.assertEquals(test.get(savedEmployee.getName()).getObjectValue(), employee);
+        Assert.assertEquals(1, LoadListener.getCounter());
 
         Thread.sleep(1000);
 
@@ -408,7 +403,7 @@ public class HibernateInsertTest {
     }
 
     private void checkColumns(List<String> columns, String tableName, Session session) {
-        NativeQuery query = session.createSQLQuery(String.format(SELECT_TABLE_COLUMNS, tableName)).setParameter("tableName", tableName);
+        NativeQuery query = session.createSQLQuery(SELECT_TABLE_COLUMNS).setParameter("tableName", tableName);
 
         for (Object s : query.list()) {
             Assert.assertTrue(columns.contains(s));
@@ -419,12 +414,12 @@ public class HibernateInsertTest {
         try {
             Field regionsByName = cache.getClass().getDeclaredField("regionsByName");
             regionsByName.setAccessible(true);
-            return ( Map<String, Region>) regionsByName.get(cache);
+            return (Map<String, Region>) regionsByName.get(cache);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        throw new RuntimeException("Gg");
+        throw new RuntimeException("Region not found.");
     }
 }

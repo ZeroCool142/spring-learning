@@ -10,6 +10,8 @@
             maxEntriesLocalHeap="10000"
             eternal="false"
             memoryStoreEvictionPolicy="LRU"
+            timeToIdleSeconds="2"
+            timeToLiveSeconds="2"
     />
     <defaultCache
             name="def"

@@ -19,10 +19,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
-	compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.6'
-	runtimeOnly 'org.postgresql:postgresql'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	// https://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache
+	
+	compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.6'
 	compile group: 'org.hibernate', name: 'hibernate-ehcache', version: '5.4.0.Final'
 
+	runtimeOnly 'org.postgresql:postgresql'
 }

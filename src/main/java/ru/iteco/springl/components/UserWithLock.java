@@ -1,5 +1,6 @@
 package ru.iteco.springl.components;
 
+import net.bytebuddy.utility.RandomString;
 import org.hibernate.Session;
 import ru.iteco.springl.model.User;
 
@@ -9,10 +10,10 @@ import java.util.concurrent.Callable;
 
 public class UserWithLock implements Callable<String> {
 
-    Long id;
-    LockModeType lockModeType;
-    long ms;
-    Session session;
+    private Long id;
+    private LockModeType lockModeType;
+    private long ms;
+    private Session session;
 
 
     public UserWithLock(Long id, LockModeType lockModeType, long ms, Session session) {
@@ -24,7 +25,7 @@ public class UserWithLock implements Callable<String> {
 
     @Override
     public String call() throws Exception {
-        String lastName = generate(10);
+        String lastName = RandomString.make();
         session.beginTransaction();
 
         User user = session.find(User.class, id, lockModeType);
@@ -37,16 +38,6 @@ public class UserWithLock implements Callable<String> {
 
         session.close();
 
-
         return lastName;
-    }
-
-    private SecureRandom secureRandom = new SecureRandom();
-
-    public String generate(int length) {
-        StringBuilder sb = new StringBuilder();
-        secureRandom.ints(97, 123).limit(length).forEach(i -> sb.append((char) i));
-
-        return sb.toString();
     }
 }
