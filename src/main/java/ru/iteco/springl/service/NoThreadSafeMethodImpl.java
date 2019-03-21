@@ -42,7 +42,7 @@ public class NoThreadSafeMethodImpl implements NoThreadSafeService {
 
     @Override
     public int increment() {
-        return i = i + 1;
+        return ++i;
     }
 
     @Override
