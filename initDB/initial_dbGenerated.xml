@@ -1,0 +1,194 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="kislov (generated)" id="1553586727649-1">
+        <createSequence sequenceName="city_seq"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-2">
+        <createSequence sequenceName="contract_seq"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-3">
+        <createSequence sequenceName="contract_shipment_seq"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-6">
+        <createSequence sequenceName="location_seq"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-7">
+        <createSequence sequenceName="organization_seq"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-8">
+        <createSequence sequenceName="payment_seq"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-10">
+        <createSequence sequenceName="product_seq"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-11">
+        <createSequence sequenceName="shipment_product_seq"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-12">
+        <createSequence sequenceName="shipment_seq"/>
+    </changeSet>
+	
+    <changeSet author="kislov (generated)" id="1553586727649-16">
+        <createTable tableName="audit">
+            <column autoIncrement="true" name="audit_id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="audit_pkey"/>
+            </column>
+            <column name="organization_id" type="INTEGER"/>
+            <column name="contract_id" type="INTEGER"/>
+            <column name="contract_amount" type="numeric(9, 2)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-20">
+        <createTable tableName="city">
+            <column autoIncrement="true" name="city_id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="city_pk"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-21">
+        <createTable tableName="contract">
+            <column autoIncrement="true" name="contract_id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="contract_pk"/>
+            </column>
+            <column name="amount" type="numeric">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organization_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="('now'::text)::date" name="contract_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-28">
+        <createTable tableName="location">
+            <column autoIncrement="true" name="location_id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="location_pk"/>
+            </column>
+            <column name="city_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-29">
+        <createTable tableName="organization">
+            <column autoIncrement="true" name="organization_id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="organization_pk"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-30">
+        <createTable tableName="payment">
+            <column autoIncrement="true" name="payment_id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="payment_pk"/>
+            </column>
+            <column name="type" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="numeric">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contract_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-31">
+        <createTable tableName="product">
+            <column autoIncrement="true" name="product_id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="product_pk"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-32">
+        <createTable tableName="shipment">
+            <column autoIncrement="true" name="shipment_id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="shipment_pk"/>
+            </column>
+            <column name="location_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expected_date_shipment" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expected_date_arrival" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="actual_date_shipment" type="date"/>
+            <column name="actual_date_arrival" type="date"/>
+            <column name="contract_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-33">
+        <createTable tableName="shipment_product">
+            <column autoIncrement="true" name="shipment_product_id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="shipment_product_pk"/>
+            </column>
+            <column name="shipment_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="amount" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="kislov (generated)" id="1553586727649-36">
+        <addUniqueConstraint columnNames="name" constraintName="city_name_key" tableName="city"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-37">
+        <addUniqueConstraint columnNames="name" constraintName="organization_name_key" tableName="organization"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-38">
+        <addUniqueConstraint columnNames="name" constraintName="product_name_key" tableName="product"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-39">
+        <addForeignKeyConstraint baseColumnNames="contract_id" baseTableName="audit" constraintName="contract_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="contract_id" referencedTableName="contract" validate="true"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-40">
+        <addForeignKeyConstraint baseColumnNames="organization_id" baseTableName="contract" constraintName="contract_fk0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="organization_id" referencedTableName="organization" validate="true"/>
+    </changeSet>
+
+    <changeSet author="kislov (generated)" id="1553586727649-45">
+        <addForeignKeyConstraint baseColumnNames="city_id" baseTableName="location" constraintName="location_fk0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="city_id" referencedTableName="city" validate="true"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-46">
+        <addForeignKeyConstraint baseColumnNames="organization_id" baseTableName="audit" constraintName="organization_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="organization_id" referencedTableName="organization" validate="true"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-47">
+        <addForeignKeyConstraint baseColumnNames="contract_id" baseTableName="payment" constraintName="payment_fk0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="contract_id" referencedTableName="contract" validate="true"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-48">
+        <addForeignKeyConstraint baseColumnNames="contract_id" baseTableName="shipment" constraintName="shipment_contract_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="contract_id" referencedTableName="contract" validate="true"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-49">
+        <addForeignKeyConstraint baseColumnNames="location_id" baseTableName="shipment" constraintName="shipment_fk0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="location_id" referencedTableName="location" validate="true"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-50">
+        <addForeignKeyConstraint baseColumnNames="shipment_id" baseTableName="shipment_product" constraintName="shipment_product_fk0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="shipment_id" referencedTableName="shipment" validate="true"/>
+    </changeSet>
+    <changeSet author="kislov (generated)" id="1553586727649-51">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="shipment_product" constraintName="shipment_product_fk1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="product_id" referencedTableName="product" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
